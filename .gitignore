@@ -1,0 +1,9 @@
+downloads/
+audio/
+transcripts/
+*.mp3
+*.mp4
+*.wav
+*.txt
+target/
+__pycache__/
