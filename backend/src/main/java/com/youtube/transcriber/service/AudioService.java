@@ -3,22 +3,44 @@ package com.youtube.transcriber.service;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 @Service
 public class AudioService {
 
-    public boolean extractAudio() {
+    public String extractAudio(String videoPath) {
 
         try {
 
+            // UNIQUE AUDIO NAME
+            long timestamp = System.currentTimeMillis();
+
+           String audioPath = "../audio/audio_" + timestamp + ".wav";
+           
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "ffmpeg",
-                    "-i",
-                    "downloads/video.mp4",
-                    "-vn",
-                    "audio/audio.mp3"
-            );
+        "ffmpeg",
+        "-y",
+        "-i",
+        videoPath,
+
+        // REMOVE VIDEO
+        "-vn",
+
+        // MONO AUDIO
+        "-ac",
+        "1",
+
+        // 16k SAMPLE RATE
+        "-ar",
+        "16000",
+
+        // WAV FORMAT
+        "-acodec",
+        "pcm_s16le",
+
+        audioPath
+);
 
             processBuilder.redirectErrorStream(true);
 
@@ -36,13 +58,23 @@ public class AudioService {
 
             int exitCode = process.waitFor();
 
-            return exitCode == 0;
+            if (exitCode != 0) {
+                return null;
+            }
+
+            File audioFile = new File(audioPath);
+
+            if (audioFile.exists()) {
+                return audioFile.getAbsolutePath();
+            }
+
+            return null;
 
         } catch (Exception e) {
 
             e.printStackTrace();
 
-            return false;
+            return null;
         }
     }
 }
