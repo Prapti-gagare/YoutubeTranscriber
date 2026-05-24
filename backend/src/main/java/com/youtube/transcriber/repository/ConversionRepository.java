@@ -10,4 +10,6 @@ public interface ConversionRepository
         extends JpaRepository<Conversion, Long> {
 
     List<Conversion> findAllByOrderByCreatedAtDesc();
+
+    List<Conversion> findByLanguage(String language);
 }

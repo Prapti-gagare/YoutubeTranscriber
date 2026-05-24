@@ -18,7 +18,16 @@ public class HistoryController {
     @GetMapping("/history")
     public List<Conversion> getHistory() {
 
-       return conversionRepository
-        .findAllByOrderByCreatedAtDesc();
+        return conversionRepository
+                .findAllByOrderByCreatedAtDesc();
+    }
+
+    @GetMapping("/history/language/{language}")
+    public List<Conversion> getByLanguage(
+            @PathVariable String language
+    ) {
+
+        return conversionRepository
+                .findByLanguage(language);
     }
 }
