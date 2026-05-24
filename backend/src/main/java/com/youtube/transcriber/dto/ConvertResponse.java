@@ -5,7 +5,7 @@ public class ConvertResponse {
     private String status;
     private String message;
     private String audioUrl;
-    private String transcriptPath;
+    private String transcriptUrl;
 
     public ConvertResponse() {
     }
@@ -14,12 +14,12 @@ public class ConvertResponse {
             String status,
             String message,
             String audioUrl,
-            String transcriptPath
+            String transcriptUrl
     ) {
         this.status = status;
         this.message = message;
         this.audioUrl = audioUrl;
-        this.transcriptPath = transcriptPath;
+        this.transcriptUrl = transcriptUrl;
     }
 
     public String getStatus() {
@@ -34,8 +34,8 @@ public class ConvertResponse {
         return audioUrl;
     }
 
-    public String getTranscriptPath() {
-        return transcriptPath;
+    public String getTranscriptUrl() {
+        return transcriptUrl;
     }
 
     public void setStatus(String status) {
@@ -50,7 +50,7 @@ public class ConvertResponse {
         this.audioUrl = audioUrl;
     }
 
-    public void setTranscriptPath(String transcriptPath) {
-        this.transcriptPath = transcriptPath;
+    public void setTranscriptUrl(String transcriptUrl) {
+        this.transcriptUrl = transcriptUrl;
     }
 }

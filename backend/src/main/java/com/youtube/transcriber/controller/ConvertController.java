@@ -68,6 +68,7 @@ public class ConvertController {
         // STEP 3 — GENERATE TRANSCRIPT
         String transcriptPath =
                 pythonService.generateTranscript(audioPath);
+                
 
         if (transcriptPath == null) {
 
@@ -80,17 +81,27 @@ public class ConvertController {
         }
 
         // AUDIO URL
-        File audioFile = new File(audioPath);
+File audioFile = new File(audioPath);
 
-        String audioUrl =
-                "http://localhost:8080/audio/" +
-                        audioFile.getName();
+String audioUrl =
+        "http://localhost:8080/audio/" +
+                audioFile.getName();
 
-        return new ConvertResponse(
-                "success",
-                "Transcript generated successfully",
-                audioUrl,
-                transcriptPath
-        );
+
+// TRANSCRIPT URL
+File transcriptFile = new File(transcriptPath);
+
+String transcriptUrl =
+        "http://localhost:8080/transcripts/" +
+                transcriptFile.getName();
+
+
+// FINAL RESPONSE
+return new ConvertResponse(
+        "success",
+        "Transcript generated successfully",
+        audioUrl,
+        transcriptUrl
+);
     }
 }
