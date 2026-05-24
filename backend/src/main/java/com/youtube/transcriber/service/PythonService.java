@@ -8,16 +8,13 @@ import java.io.InputStreamReader;
 @Service
 public class PythonService {
 
-    public String generateTranscript(String audioPath) {
+    public PythonResult generateTranscript(String audioPath) {
 
         try {
 
             System.out.println("STARTING PYTHON TRANSCRIPTION...");
 
             ProcessBuilder processBuilder = new ProcessBuilder(
-
-                    // IMPORTANT:
-                    // REPLACE THIS WITH YOUR REAL PYTHON PATH
 
                     "C:\\Program Files\\Python313\\python.exe",
 
@@ -38,24 +35,45 @@ public class PythonService {
 
             String transcriptPath = null;
 
+            String language = null;
+
             while ((line = reader.readLine()) != null) {
 
                 System.out.println("PYTHON OUTPUT: " + line);
 
+                // GET TRANSCRIPT PATH
                 if (line.startsWith("TRANSCRIPT_PATH=")) {
 
                     transcriptPath =
-                            line.replace("TRANSCRIPT_PATH=", "").trim();
+                            line.replace(
+                                    "TRANSCRIPT_PATH=",
+                                    ""
+                            ).trim();
+                }
+
+                // GET DETECTED LANGUAGE
+                if (line.startsWith("LANGUAGE=")) {
+
+                    language =
+                            line.replace(
+                                    "LANGUAGE=",
+                                    ""
+                            ).trim();
                 }
             }
 
             int exitCode = process.waitFor();
 
-            System.out.println("PYTHON EXIT CODE: " + exitCode);
+            System.out.println(
+                    "PYTHON EXIT CODE: " + exitCode
+            );
 
             if (exitCode == 0) {
 
-                return transcriptPath;
+                return new PythonResult(
+                        transcriptPath,
+                        language
+                );
             }
 
             return null;

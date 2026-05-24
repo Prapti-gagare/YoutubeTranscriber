@@ -23,13 +23,15 @@ result = model.transcribe(
 # DETECTED LANGUAGE
 detected_language = result["language"]
 
-print("Detected Language:", detected_language)
+print("Detected Language:", detected_language, flush=True)
+print("LANGUAGE=" + detected_language, flush=True)
 
 # EXTRACT TRANSCRIPT
 transcript = result["text"]
 
 # CREATE TRANSCRIPTS FOLDER
 os.makedirs("../transcripts", exist_ok=True)
+
 
 # UNIQUE TRANSCRIPT FILE
 timestamp = int(time.time())
