@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>YouTube Transcriber</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>YouTube AI Transcriber</h1>
+
+    <input
+            type="text"
+            id="youtubeUrl"
+            placeholder="Paste YouTube URL"
+    >
+
+    <button onclick="convertVideo()">
+        Convert
+    </button>
+
+    <div id="loading"></div>
+
+    <div id="result"></div>
+
+    <h2>History</h2>
+
+    <button onclick="loadHistory()">
+        Refresh History
+    </button>
+
+    <div id="history"></div>
+
+</div>
+
+<script src="/js/app.js"></script>
+
+</body>
+</html>
