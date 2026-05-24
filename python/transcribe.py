@@ -1,3 +1,4 @@
+print("Python transcription started")
 import whisper
 import sys
 import os
@@ -39,7 +40,6 @@ transcript_path = f"../transcripts/transcript_{timestamp}.txt"
 with open(transcript_path, "w", encoding="utf-8") as file:
     file.write(transcript)
 
-print("\nTRANSCRIPT:\n")
-print(transcript)
+print("\nTRANSCRIPT GENERATED SUCCESSFULLY", flush=True)
 
-print("\nTRANSCRIPT_PATH=" + transcript_path)
+print("\nTRANSCRIPT_PATH=" + transcript_path, flush=True)

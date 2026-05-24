@@ -3,6 +3,7 @@ package com.youtube.transcriber.controller;
 import com.youtube.transcriber.dto.ConvertRequest;
 import com.youtube.transcriber.dto.ConvertResponse;
 import com.youtube.transcriber.service.AudioService;
+import com.youtube.transcriber.service.PythonService;
 import com.youtube.transcriber.service.VideoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class ConvertController {
     @Autowired
     private AudioService audioService;
 
+    @Autowired
+    private PythonService pythonService;
+
     @PostMapping("/convert")
     public ConvertResponse convertVideo(@RequestBody ConvertRequest request) {
 
@@ -30,11 +34,12 @@ public class ConvertController {
             return new ConvertResponse(
                     "error",
                     "YouTube URL is required",
+                    null,
                     null
             );
         }
 
-        // STEP 1: DOWNLOAD VIDEO
+        // STEP 1 — DOWNLOAD VIDEO
         String videoPath = videoService.downloadVideo(url);
 
         if (videoPath == null) {
@@ -42,11 +47,12 @@ public class ConvertController {
             return new ConvertResponse(
                     "error",
                     "Video download failed",
+                    null,
                     null
             );
         }
 
-        // STEP 2: EXTRACT AUDIO
+        // STEP 2 — EXTRACT AUDIO
         String audioPath = audioService.extractAudio(videoPath);
 
         if (audioPath == null) {
@@ -54,23 +60,37 @@ public class ConvertController {
             return new ConvertResponse(
                     "error",
                     "Audio extraction failed",
+                    null,
                     null
             );
         }
 
-        // STEP 3: GENERATE AUDIO URL
+        // STEP 3 — GENERATE TRANSCRIPT
+        String transcriptPath =
+                pythonService.generateTranscript(audioPath);
 
+        if (transcriptPath == null) {
+
+            return new ConvertResponse(
+                    "error",
+                    "Transcript generation failed",
+                    null,
+                    null
+            );
+        }
+
+        // AUDIO URL
         File audioFile = new File(audioPath);
 
-        String fileName = audioFile.getName();
-
         String audioUrl =
-                "http://localhost:8080/audio/" + fileName;
+                "http://localhost:8080/audio/" +
+                        audioFile.getName();
 
         return new ConvertResponse(
                 "success",
-                "Audio generated successfully",
-                audioUrl
+                "Transcript generated successfully",
+                audioUrl,
+                transcriptPath
         );
     }
 }
