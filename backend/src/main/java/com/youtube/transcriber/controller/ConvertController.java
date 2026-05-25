@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 @RestController
@@ -42,10 +44,28 @@ public class ConvertController {
 
         try {
 
-            // GET YOUTUBE URL
+            // =====================================
+            // STEP 1 : GET YOUTUBE URL
+            // =====================================
+
             String url = request.getUrl();
 
-            // DOWNLOAD VIDEO
+            if (url == null || url.isEmpty()) {
+
+                return new ConvertResponse(
+                        "error",
+                        "YouTube URL is required",
+                        null,
+                        null,
+                        null,
+                        null
+                );
+            }
+
+            // =====================================
+            // STEP 2 : DOWNLOAD VIDEO
+            // =====================================
+
             String videoPath =
                     videoService.downloadVideo(url);
 
@@ -55,11 +75,16 @@ public class ConvertController {
                         "error",
                         "Video download failed",
                         null,
+                        null,
+                        null,
                         null
                 );
             }
 
-            // EXTRACT AUDIO
+            // =====================================
+            // STEP 3 : EXTRACT AUDIO
+            // =====================================
+
             String audioPath =
                     audioService.extractAudio(videoPath);
 
@@ -69,11 +94,16 @@ public class ConvertController {
                         "error",
                         "Audio extraction failed",
                         null,
+                        null,
+                        null,
                         null
                 );
             }
 
-            // GENERATE TRANSCRIPT
+            // =====================================
+            // STEP 4 : GENERATE TRANSCRIPT
+            // =====================================
+
             PythonResult pythonResult =
                     pythonService.generateTranscript(audioPath);
 
@@ -83,9 +113,15 @@ public class ConvertController {
                         "error",
                         "Transcription failed",
                         null,
+                        null,
+                        null,
                         null
                 );
             }
+
+            // =====================================
+            // STEP 5 : GET TRANSCRIPT DETAILS
+            // =====================================
 
             String transcriptPath =
                     pythonResult.getTranscriptPath();
@@ -93,14 +129,22 @@ public class ConvertController {
             String language =
                     pythonResult.getLanguage();
 
-            // AUDIO URL
+            // READ TRANSCRIPT TEXT
+            String transcriptText =
+                    Files.readString(
+                            Paths.get(transcriptPath)
+                    );
+
+            // =====================================
+            // STEP 6 : GENERATE FILE URLS
+            // =====================================
+
             File audioFile = new File(audioPath);
 
             String audioUrl =
                     "http://localhost:8080/audio/"
                             + audioFile.getName();
 
-            // TRANSCRIPT URL
             File transcriptFile =
                     new File(transcriptPath);
 
@@ -108,8 +152,12 @@ public class ConvertController {
                     "http://localhost:8080/transcripts/"
                             + transcriptFile.getName();
 
-            // SAVE TO DATABASE
-            Conversion conversion = new Conversion();
+            // =====================================
+            // STEP 7 : SAVE TO DATABASE
+            // =====================================
+
+            Conversion conversion =
+                    new Conversion();
 
             conversion.setYoutubeUrl(url);
 
@@ -123,12 +171,17 @@ public class ConvertController {
 
             conversionRepository.save(conversion);
 
-            // SUCCESS RESPONSE
+            // =====================================
+            // STEP 8 : SUCCESS RESPONSE
+            // =====================================
+
             return new ConvertResponse(
                     "success",
                     "Transcript generated successfully",
                     audioUrl,
-                    transcriptUrl
+                    transcriptUrl,
+                    transcriptText,
+                    language
             );
 
         } catch (Exception e) {
@@ -138,6 +191,8 @@ public class ConvertController {
             return new ConvertResponse(
                     "error",
                     e.getMessage(),
+                    null,
+                    null,
                     null,
                     null
             );

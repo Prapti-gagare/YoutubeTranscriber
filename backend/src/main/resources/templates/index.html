@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <title>YouTube Transcriber</title>
+    <title>YouTube AI Transcriber</title>
 
     <link rel="stylesheet" href="/css/style.css">
 
@@ -23,13 +23,20 @@
             placeholder="Paste YouTube URL"
     >
 
-    <button onclick="convertVideo()">
+    <br>
+
+    <button
+            id="convertBtn"
+            onclick="convertVideo()"
+    >
         Convert
     </button>
 
     <div id="loading"></div>
 
     <div id="result"></div>
+
+    <hr>
 
     <h2>History</h2>
 

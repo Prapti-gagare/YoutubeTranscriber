@@ -9,10 +9,22 @@ async function convertVideo() {
     const result =
         document.getElementById("result");
 
+    const button =
+        document.getElementById("convertBtn");
+
+    if (!url) {
+
+        alert("Please enter YouTube URL");
+
+        return;
+    }
+
     loading.innerHTML =
-        "Processing video... Please wait.";
+        "<h3>Processing... Please wait.</h3>";
 
     result.innerHTML = "";
+
+    button.disabled = true;
 
     try {
 
@@ -35,39 +47,61 @@ async function convertVideo() {
 
         loading.innerHTML = "";
 
+        button.disabled = false;
+
         if (data.status === "success") {
 
             result.innerHTML = `
 
-                <h3>Conversion Successful</h3>
+                <h2>Conversion Successful</h2>
 
                 <p>
-                    <a href="${data.audioUrl}" target="_blank">
-                        Download Audio
-                    </a>
+                    <b>Detected Language:</b>
+                    ${data.language}
                 </p>
 
-                <p>
-                    <a href="${data.transcriptUrl}" target="_blank">
-                        Download Transcript
-                    </a>
-                </p>
+                <h3>Transcript Preview</h3>
+
+                <textarea
+                    rows="10"
+                    cols="80"
+                    readonly
+                >
+${data.transcriptText}
+                </textarea>
+
+                <br><br>
+
+                <a href="${data.audioUrl}" target="_blank">
+                    Download Audio
+                </a>
+
+                <br><br>
+
+                <a href="${data.transcriptUrl}" target="_blank">
+                    Download Transcript
+                </a>
             `;
 
             loadHistory();
 
         } else {
 
-            result.innerHTML =
-                "<p>Conversion failed</p>";
+            result.innerHTML = `
+                <h3>Error</h3>
+                <p>${data.message}</p>
+            `;
         }
 
     } catch (error) {
 
+        button.disabled = false;
+
         loading.innerHTML = "";
 
-        result.innerHTML =
-            "<p>Error occurred</p>";
+        result.innerHTML = `
+            <h3>Server Error</h3>
+        `;
     }
 }
 
@@ -76,40 +110,48 @@ async function loadHistory() {
     const historyDiv =
         document.getElementById("history");
 
-    const response =
-        await fetch("/api/history");
+    try {
 
-    const data =
-        await response.json();
+        const response =
+            await fetch("/api/history");
 
-    historyDiv.innerHTML = "";
+        const data =
+            await response.json();
 
-    data.forEach(item => {
+        historyDiv.innerHTML = "";
 
-        historyDiv.innerHTML += `
+        data.forEach(item => {
 
-            <div class="history-card">
+            historyDiv.innerHTML += `
 
-                <p>
-                    <b>Language:</b>
-                    ${item.language}
-                </p>
+                <div class="history-card">
 
-                <p>
-                    <a href="${item.audioUrl}" target="_blank">
-                        Audio
-                    </a>
-                </p>
+                    <p>
+                        <b>Language:</b>
+                        ${item.language}
+                    </p>
 
-                <p>
-                    <a href="${item.transcriptUrl}" target="_blank">
-                        Transcript
-                    </a>
-                </p>
+                    <p>
+                        <a href="${item.audioUrl}" target="_blank">
+                            Audio
+                        </a>
+                    </p>
 
-            </div>
-        `;
-    });
+                    <p>
+                        <a href="${item.transcriptUrl}" target="_blank">
+                            Transcript
+                        </a>
+                    </p>
+
+                </div>
+            `;
+        });
+
+    } catch (error) {
+
+        historyDiv.innerHTML =
+            "<p>Failed to load history</p>";
+    }
 }
 
 loadHistory();

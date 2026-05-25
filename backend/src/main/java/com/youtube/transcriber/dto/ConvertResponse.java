@@ -6,21 +6,26 @@ public class ConvertResponse {
     private String message;
     private String audioUrl;
     private String transcriptUrl;
-
-    public ConvertResponse() {
-    }
+    private String transcriptText;
+    private String language;
 
     public ConvertResponse(
             String status,
             String message,
             String audioUrl,
-            String transcriptUrl
+            String transcriptUrl,
+            String transcriptText,
+            String language
     ) {
         this.status = status;
         this.message = message;
         this.audioUrl = audioUrl;
         this.transcriptUrl = transcriptUrl;
+        this.transcriptText = transcriptText;
+        this.language = language;
     }
+
+    // GETTERS
 
     public String getStatus() {
         return status;
@@ -38,6 +43,16 @@ public class ConvertResponse {
         return transcriptUrl;
     }
 
+    public String getTranscriptText() {
+        return transcriptText;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    // SETTERS
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -52,5 +67,13 @@ public class ConvertResponse {
 
     public void setTranscriptUrl(String transcriptUrl) {
         this.transcriptUrl = transcriptUrl;
+    }
+
+    public void setTranscriptText(String transcriptText) {
+        this.transcriptText = transcriptText;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
