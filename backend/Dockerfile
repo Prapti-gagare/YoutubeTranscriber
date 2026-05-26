@@ -1,11 +1,21 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 
-RUN apt-get update && apt-get install -y ffmpeg python3 python3-pip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    ffmpeg
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY . .
+
+RUN pip3 install --break-system-packages -r requirements.txt
+WORKDIR /app/backend
+
+RUN chmod +x mvnw
+
+RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "target/transcriber-0.0.1-SNAPSHOT.jar"]
