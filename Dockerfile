@@ -9,12 +9,12 @@ WORKDIR /app
 
 COPY . .
 
+# Install python dependencies
 RUN pip3 install -r requirements.txt
 
+# Build Spring Boot project
 WORKDIR /app/backend
-
 RUN chmod +x mvnw
-
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
