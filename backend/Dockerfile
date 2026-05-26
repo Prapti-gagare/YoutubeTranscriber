@@ -3,20 +3,12 @@ FROM eclipse-temurin:17-jdk
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    ffmpeg \
-    curl
+    ffmpeg
 
 WORKDIR /app
 
 COPY . .
 
-# Install pip tools
-RUN pip3 install --upgrade pip
-
-# Install torch FIRST (stable CPU version)
-RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-
-# Install remaining dependencies
 RUN pip3 install -r requirements.txt
 
 WORKDIR /app/backend
