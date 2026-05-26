@@ -1,26 +1,48 @@
+# ===============================
+# Base Image (Java + OS)
+# ===============================
 FROM openjdk:17
 
-# Install Python + FFmpeg
+# ===============================
+# Install Python + FFmpeg + pip
+# ===============================
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
-    ffmpeg
+    ffmpeg \
+    curl \
+    && apt-get clean
 
+# ===============================
+# Set working directory
+# ===============================
 WORKDIR /app
 
-# Copy full project
+# ===============================
+# Copy full project into container
+# ===============================
 COPY . .
 
+# ===============================
 # Install Python dependencies
+# ===============================
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Go to backend
+# ===============================
+# Build Spring Boot backend
+# ===============================
 WORKDIR /app/backend
 
-# Build Spring Boot project
+RUN chmod +x mvnw
+
 RUN ./mvnw clean package -DskipTests
 
+# ===============================
+# Expose port
+# ===============================
 EXPOSE 8080
 
-# Run jar
+# ===============================
+# Run Spring Boot application
+# ===============================
 CMD ["java", "-jar", "target/transcriber-0.0.1-SNAPSHOT.jar"]
