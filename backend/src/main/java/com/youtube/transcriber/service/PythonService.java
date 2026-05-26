@@ -8,15 +8,36 @@ import java.io.InputStreamReader;
 @Service
 public class PythonService {
 
+    // AUTO-DETECT PYTHON COMMAND BASED ON OS
+    private String getPythonCommand() {
+
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
+
+            // ON WINDOWS: try "python" (works for Python 3 installed normally)
+            return "python";
+
+        } else {
+
+            // ON LINUX / MAC / VPS: use "python3"
+            return "python3";
+        }
+    }
+
     public PythonResult generateTranscript(String audioPath) {
 
         try {
 
             System.out.println("STARTING PYTHON TRANSCRIPTION...");
 
+            String pythonCommand = getPythonCommand();
+
+            System.out.println("USING PYTHON COMMAND: " + pythonCommand);
+
             ProcessBuilder processBuilder = new ProcessBuilder(
 
-                    "C:\\Program Files\\Python313\\python.exe",
+                    pythonCommand,              // ✅ Auto-detects Windows vs Linux/Mac
 
                     "../python/transcribe.py",
 
