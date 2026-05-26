@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk
 
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -9,12 +9,12 @@ WORKDIR /app
 
 COPY . .
 
-# Install python dependencies
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Build Spring Boot project
 WORKDIR /app/backend
+
 RUN chmod +x mvnw
+
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
