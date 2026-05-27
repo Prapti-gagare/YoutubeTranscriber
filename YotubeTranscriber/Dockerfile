@@ -12,12 +12,11 @@ WORKDIR /app
 COPY . .
 
 RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+
 RUN chmod +x backend/mvnw
 
-WORKDIR /app/backend
-
-RUN ./mvnw clean package -DskipTests
+RUN cd backend && ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/transcriber-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/backend/target/transcriber-0.0.1-SNAPSHOT.jar"]
