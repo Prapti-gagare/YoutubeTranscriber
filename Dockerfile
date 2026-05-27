@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . .
 
 # INSTALL PYTHON LIBRARIES
-RUN pip3 install --break-system-packages -r python/requirements.txt
+RUN pip3 install --break-system-packages -r requirements.txt
 
 # GO INSIDE BACKEND
 WORKDIR /app/backend
