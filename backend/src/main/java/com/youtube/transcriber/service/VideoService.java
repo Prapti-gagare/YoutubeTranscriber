@@ -13,15 +13,24 @@ public class VideoService {
 
         try {
 
-            // UNIQUE ID using timestamp
+            // CREATE DOWNLOADS FOLDER
+            File downloadFolder = new File("downloads");
+
+            if (!downloadFolder.exists()) {
+                downloadFolder.mkdirs();
+            }
+
+            // UNIQUE FILE NAME
             long timestamp = System.currentTimeMillis();
 
-            String outputTemplate = "downloads/video_" + timestamp + ".%(ext)s";
+            String outputTemplate =
+                    "downloads/video_" + timestamp + ".%(ext)s";
 
+            // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "yt-dlp",
+                    "/usr/local/bin/yt-dlp",
                     "-f",
-                    "best",
+                    "mp4",
                     "-o",
                     outputTemplate,
                     youtubeUrl
@@ -31,6 +40,7 @@ public class VideoService {
 
             Process process = processBuilder.start();
 
+            // READ OUTPUT
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream())
             );
@@ -38,27 +48,38 @@ public class VideoService {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+
+                System.out.println("YT-DLP: " + line);
             }
 
             int exitCode = process.waitFor();
 
+            System.out.println("YT-DLP EXIT CODE: " + exitCode);
+
+            // FAILED
             if (exitCode != 0) {
+
                 return null;
             }
 
-            // FIND ACTUAL FILE
-            File folder = new File("downloads");
+            // FIND DOWNLOADED FILE
+            File[] files = downloadFolder.listFiles();
 
-            File[] files = folder.listFiles();
+            if (files == null) {
 
-            if (files == null) return null;
+                return null;
+            }
 
             String expectedName = "video_" + timestamp;
 
             for (File file : files) {
 
                 if (file.getName().startsWith(expectedName)) {
+
+                    System.out.println(
+                            "VIDEO DOWNLOADED: "
+                                    + file.getAbsolutePath()
+                    );
 
                     return file.getAbsolutePath();
                 }
