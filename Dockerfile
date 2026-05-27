@@ -2,23 +2,35 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Install Python
-RUN apt-get update && apt-get install -y python3 python3-pip ffmpeg
+# Install Python + ffmpeg
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    ffmpeg \
+    curl
+
+# Install yt-dlp
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
+    -o /usr/local/bin/yt-dlp
+
+RUN chmod a+rx /usr/local/bin/yt-dlp
 
 # Copy requirements
 COPY requirements.txt .
 
-# Install Python packages
+# Install Python libraries
 RUN pip3 install --break-system-packages -r requirements.txt
 
-# Copy full project
+# Copy project
 COPY . .
 
-# Build Spring Boot project
+# Move to backend
 WORKDIR /app/backend
 
+# Maven wrapper permission
 RUN chmod +x mvnw
 
+# Build project
 RUN ./mvnw clean install -DskipTests
 
 EXPOSE 8080
