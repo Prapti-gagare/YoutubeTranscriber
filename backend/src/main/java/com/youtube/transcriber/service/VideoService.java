@@ -28,14 +28,14 @@ public class VideoService {
 
             // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "/usr/local/bin/yt-dlp",
-                    "-f",
-                    "mp4",
-                    "-o",
-                    outputTemplate,
-                    youtubeUrl
-            );
-
+        "/usr/local/bin/yt-dlp",
+        "--no-check-certificates",
+        "-f",
+        "best",
+        "-o",
+        outputTemplate,
+        youtubeUrl
+);
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
