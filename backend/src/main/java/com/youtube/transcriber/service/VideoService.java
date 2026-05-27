@@ -27,14 +27,12 @@ public class VideoService {
                     "downloads/video_" + timestamp + ".%(ext)s";
 
             // YT-DLP COMMAND
-            ProcessBuilder processBuilder = new ProcessBuilder(
-        "/usr/local/bin/yt-dlp",
-        "--no-check-certificates",
-        "-f",
-        "best",
-        "-o",
-        outputTemplate,
-        youtubeUrl
+          ProcessBuilder processBuilder = new ProcessBuilder(
+    "/usr/local/bin/yt-dlp",
+    "--no-check-certificates",
+    "-o",
+    outputTemplate,
+    youtubeUrl
 );
             processBuilder.redirectErrorStream(true);
 
