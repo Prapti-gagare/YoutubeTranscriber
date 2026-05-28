@@ -12,8 +12,7 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm
 
-# Upgrade pip
-RUN pip3 install --break-system-packages --upgrade pip setuptools wheel
+
 
 # Install latest yt-dlp directly from GitHub
 RUN pip3 install --break-system-packages --no-cache-dir \
