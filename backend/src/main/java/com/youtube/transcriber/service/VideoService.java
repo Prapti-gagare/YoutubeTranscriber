@@ -28,25 +28,13 @@ public class VideoService {
 
           ProcessBuilder processBuilder = new ProcessBuilder(
         "yt-dlp",
-
-        "--cookies",
-        "/app/cookies.txt",
-
+        "--no-check-certificates",
         "--extractor-args",
         "youtube:player_client=android",
-
-        "--force-ipv4",
-
-        "--geo-bypass",
-
-        "--no-check-certificates",
-
         "-f",
-        "bestaudio[ext=m4a]/bestaudio",
-
+        "best",
         "-o",
         outputTemplate,
-
         youtubeUrl
 );
             processBuilder.redirectErrorStream(true);

@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 # Install latest yt-dlp
 RUN pip3 install --break-system-packages --upgrade yt-dlp
 
-RUN yt-dlp -U
+
 # Copy requirements file
 COPY requirements.txt .
 
