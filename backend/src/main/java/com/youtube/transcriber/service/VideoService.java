@@ -32,16 +32,17 @@ public class VideoService {
         "--cookies",
         "/app/cookies.txt",
 
-        "--no-check-certificates",
-
         "--extractor-args",
         "youtube:player_client=android",
 
-        "--user-agent",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "--force-ipv4",
+
+        "--geo-bypass",
+
+        "--no-check-certificates",
 
         "-f",
-        "bestaudio",
+        "bestaudio[ext=m4a]/bestaudio",
 
         "-o",
         outputTemplate,
