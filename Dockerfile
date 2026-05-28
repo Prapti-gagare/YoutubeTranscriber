@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Install system packages
+# Install Python + ffmpeg + curl
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -12,25 +12,25 @@ RUN apt-get update && apt-get install -y \
 # Install yt-dlp
 RUN pip3 install --break-system-packages yt-dlp
 
-# Copy requirements
+# Copy requirements file
 COPY requirements.txt .
 
-# Install Python packages
+# Install Python dependencies
 RUN pip3 install --break-system-packages -r requirements.txt
 
-# Copy full project
+# Copy complete project
 COPY . .
 
 # Move to backend
 WORKDIR /app/backend
 
-# Give execute permission
+# Give permission to mvnw
 RUN chmod +x mvnw
 
 # Build project
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw clean install -DskipTests
 
 EXPOSE 8080
 
-# Run generated jar
-CMD ["sh", "-c", "java -jar target/*.jar"]
+# Start Spring Boot app
+CMD ["./mvnw", "spring-boot:run"]
