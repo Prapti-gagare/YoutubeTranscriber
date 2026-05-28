@@ -26,14 +26,27 @@ public class VideoService {
             String outputTemplate =
                     "downloads/video_" + timestamp + ".%(ext)s";
 
-            // YT-DLP COMMAND
-          ProcessBuilder processBuilder = new ProcessBuilder(
-    "/usr/local/bin/yt-dlp",
-    "--no-check-certificates",
-    "-o",
-    outputTemplate,
-    youtubeUrl
-);
+            // UPDATED YT-DLP COMMAND
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "yt-dlp",
+
+                    "--no-check-certificates",
+
+                    "--extractor-args",
+                    "youtube:player_client=android",
+
+                    "--user-agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36",
+
+                    "-f",
+                    "mp4",
+
+                    "-o",
+                    outputTemplate,
+
+                    youtubeUrl
+            );
+
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
