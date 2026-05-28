@@ -15,6 +15,8 @@ RUN pip3 install --break-system-packages yt-dlp
 # Copy requirements file
 COPY requirements.txt .
 
+COPY cookies.txt .
+
 # Install Python dependencies
 RUN pip3 install --break-system-packages -r requirements.txt
 

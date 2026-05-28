@@ -29,19 +29,16 @@ public class VideoService {
           ProcessBuilder processBuilder = new ProcessBuilder(
         "yt-dlp",
 
+        "--cookies",
+        "/app/cookies.txt",
+
         "--no-check-certificates",
 
         "--extractor-args",
         "youtube:player_client=android",
 
         "--user-agent",
-        "com.google.android.youtube/19.09.37 (Linux; U; Android 11)",
-
-        "--no-warnings",
-
-        "--geo-bypass",
-
-        "--force-ipv4",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
 
         "-f",
         "bestaudio",
