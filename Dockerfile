@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
     git
 
 # Install yt-dlp
-RUN pip3 install --break-system-packages yt-dlp
-
+RUN pip3 install --break-system-packages \
+    "git+https://github.com/yt-dlp/yt-dlp.git"
 # Copy requirements
 COPY requirements.txt .
 

@@ -26,15 +26,12 @@ public class VideoService {
             String outputTemplate =
                     "downloads/video_" + timestamp + ".%(ext)s";
 
-         ProcessBuilder processBuilder = new ProcessBuilder(
+        ProcessBuilder processBuilder = new ProcessBuilder(
         "yt-dlp",
-        "--cookies",
-        "/app/cookies.txt",
-        "--extractor-args",
-        "youtube:player_client=android",
+        "--cookies", "/app/cookies.txt",
         "--no-check-certificates",
-        "-f",
-        "b",
+        "--user-agent",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
         "-o",
         outputTemplate,
         youtubeUrl
