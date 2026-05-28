@@ -27,12 +27,12 @@ public class VideoService {
                     "downloads/video_" + timestamp + ".%(ext)s";
 
          ProcessBuilder processBuilder = new ProcessBuilder(
-        "/usr/local/bin/yt-dlp",
+        "yt-dlp",
         "--cookies",
         "/app/cookies.txt",
-        "--no-check-certificates",
         "--extractor-args",
         "youtube:player_client=android",
+        "--no-check-certificates",
         "-f",
         "b",
         "-o",
