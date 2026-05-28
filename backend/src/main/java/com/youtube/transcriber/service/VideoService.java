@@ -26,16 +26,21 @@ public class VideoService {
             String outputTemplate =
                     "downloads/video_" + timestamp + ".%(ext)s";
 
-        ProcessBuilder processBuilder = new ProcessBuilder(
-        "yt-dlp",
-        "--cookies", "/app/cookies.txt",
-        "--no-check-certificates",
-        "--user-agent",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
-        "-o",
-        outputTemplate,
-        youtubeUrl
-);
+            // COOKIES FILE PATH
+            String cookiesPath = "/app/cookies.txt";
+
+            // YT-DLP COMMAND
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "yt-dlp",
+                    "--cookies", cookiesPath,
+                    "--no-check-certificates",
+                    "--user-agent",
+                    "Mozilla/5.0",
+                    "-o",
+                    outputTemplate,
+                    youtubeUrl
+            );
+
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
