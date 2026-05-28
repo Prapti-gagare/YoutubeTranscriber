@@ -30,16 +30,16 @@ public class VideoService {
             String cookiesPath = "/app/cookies.txt";
 
             // YT-DLP COMMAND
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "yt-dlp",
-                    "--cookies", cookiesPath,
-                    "--no-check-certificates",
-                    "--user-agent",
-                    "Mozilla/5.0",
-                    "-o",
-                    outputTemplate,
-                    youtubeUrl
-            );
+           ProcessBuilder processBuilder = new ProcessBuilder(
+        "yt-dlp",
+        "--cookies", "/app/cookies.txt",
+        "--extractor-args", "youtube:player_client=android",
+        "--user-agent", "Mozilla/5.0",
+        "--no-check-certificates",
+        "-o",
+        outputTemplate,
+        youtubeUrl
+);
 
             processBuilder.redirectErrorStream(true);
 
