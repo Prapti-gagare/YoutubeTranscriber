@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Install packages
+# Install system packages
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -15,22 +15,22 @@ RUN pip3 install --break-system-packages yt-dlp
 # Copy requirements
 COPY requirements.txt .
 
-# Install Python libraries
+# Install Python packages
 RUN pip3 install --break-system-packages -r requirements.txt
 
-# Copy project
+# Copy full project
 COPY . .
 
-# Backend folder
+# Move to backend
 WORKDIR /app/backend
 
-# Permission
+# Give execute permission
 RUN chmod +x mvnw
 
-# Build jar
+# Build project
 RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-# Run jar directly
-CMD ["java", "-jar", "target/transcriber-0.0.1-SNAPSHOT.jar"]
+# Run generated jar
+CMD ["sh", "-c", "java -jar target/*.jar"]
