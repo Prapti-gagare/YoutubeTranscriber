@@ -32,27 +32,14 @@ public class VideoService {
             // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
                     "yt-dlp",
-
-                    "--cookies", cookiesPath,
-
-                    "--extractor-args",
-                    "youtube:player_client=android,web",
-
+                    "--cookies", "/app/cookies.txt",
                     "--user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
                     "--no-check-certificates",
-
-                    "--geo-bypass",
-
-                    "--no-playlist",
-
                     "-o",
                     outputTemplate,
-
                     youtubeUrl
             );
-
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
