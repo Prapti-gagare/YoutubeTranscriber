@@ -35,15 +35,27 @@ System.out.println("COOKIE PATH: " + cookieFile.getAbsolutePath());
 
             // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "yt-dlp",
-                    "--cookies", "/app/cookies.txt",
-                    "--user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    "--no-check-certificates",
-                    "-o",
-                    outputTemplate,
-                    youtubeUrl
-            );
+        "yt-dlp",
+
+        "--cookies", "/app/cookies.txt",
+
+        "--extractor-args",
+        "youtube:player_client=web",
+
+        "--user-agent",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+
+        "--sleep-requests", "2",
+        "--sleep-interval", "2",
+        "--max-sleep-interval", "5",
+
+        "--no-check-certificates",
+
+        "-o",
+        outputTemplate,
+
+        youtubeUrl
+);
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
