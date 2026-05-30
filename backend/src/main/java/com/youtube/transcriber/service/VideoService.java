@@ -28,6 +28,10 @@ public class VideoService {
 
             // COOKIES FILE
             String cookiesPath = "/app/cookies.txt";
+            File cookieFile = new File("/app/cookies.txt");
+
+System.out.println("COOKIE EXISTS: " + cookieFile.exists());
+System.out.println("COOKIE PATH: " + cookieFile.getAbsolutePath());
 
             // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
