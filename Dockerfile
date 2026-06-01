@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Install system packages
+# Installing the system packages
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
