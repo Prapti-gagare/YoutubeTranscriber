@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # Install yt-dlp directly from GitHub
-#RUN pip3 install --break-system-packages --no-cache-dir \
+RUN pip3 install --break-system-packages --no-cache-dir \
     "git+https://github.com/yt-dlp/yt-dlp.git"
 
 # Verify yt-dlp installed
