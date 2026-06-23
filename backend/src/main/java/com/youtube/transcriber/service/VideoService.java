@@ -35,7 +35,7 @@ System.out.println("COOKIE PATH: " + cookieFile.getAbsolutePath());
 
             // YT-DLP COMMAND
             ProcessBuilder processBuilder = new ProcessBuilder(
-        "yt-dlp  --cookies /app/cookies.txt",
+        "/usr/local/bin/yt-dlp",
 
         "--cookies", "/app/cookies.txt",
 
