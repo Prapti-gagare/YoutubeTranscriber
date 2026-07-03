@@ -22,7 +22,6 @@ RUN pip3 install --break-system-packages --no-cache-dir \
 # Verify yt-dlp installed
 RUN yt-dlp --version
 
-# Copy requirements
 COPY requirements.txt .
 
 # Install Python packages
