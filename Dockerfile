@@ -30,7 +30,6 @@ RUN pip3 install --break-system-packages -r requirements.txt
 # Copy full project
 COPY . .
 
-# Backend folder
 WORKDIR /app/backend
 
 # Maven permission
