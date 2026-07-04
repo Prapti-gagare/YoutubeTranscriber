@@ -27,7 +27,6 @@ COPY requirements.txt .
 # Install Python packages
 RUN pip3 install --break-system-packages -r requirements.txt
 
-# Copy full project
 COPY . .
 
 WORKDIR /app/backend
