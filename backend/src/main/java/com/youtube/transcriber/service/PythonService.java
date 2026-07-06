@@ -21,7 +21,7 @@ public class PythonService {
         } else {
 
             // ON LINUX / MAC / VPS: use "python3"
-            return "python";
+            return "python3";
         }
     }
 
